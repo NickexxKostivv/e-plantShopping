@@ -310,9 +310,6 @@ function ProductList({ onHomeClick }) {
     setShowCart(false);
   };
 
-  // Flatten the plants array from all categories
-  const allPlants = plantsArray.flatMap(category => category.plants);
-
   const handleAddToCart = plant => {
     dispatch(addItem(plant));
     setAddedToCart(prev => ({
@@ -376,28 +373,39 @@ function ProductList({ onHomeClick }) {
       </div>
       {!showCart ? (
         <div className="product-grid">
-          <div className="product-list">
-            {allPlants.map((plant, index) => (
-              <div key={index} className="product-card">
-                <img
-                  src={plant.image}
-                  alt={plant.name}
-                  className="product-image"
-                />
-                <div className="product-title">{plant.name}</div>
-                <div className="product-description">{plant.description}</div>
-                <div className="product-price">{plant.cost}</div>
-                <button
-                  className={`product-button ${
-                    addedToCart[plant.name] ? "added-to-cart" : ""
-                  }`}
-                  onClick={() => handleAddToCart(plant)}
-                  disabled={addedToCart[plant.name]}>
-                  {addedToCart[plant.name] ? "Added to Cart" : "Add to Cart"}
-                </button>
+          {plantsArray.map((categoryGroup, categoryIndex) => (
+            <div key={categoryIndex}>
+              <div className="plantname_heading">
+                <h2 className="plant_heading">{categoryGroup.category}</h2>
               </div>
-            ))}
-          </div>
+              <div className="product-list">
+                {categoryGroup.plants.map((plant, plantIndex) => (
+                  <div key={plantIndex} className="product-card">
+                    <img
+                      src={plant.image}
+                      alt={plant.name}
+                      className="product-image"
+                    />
+                    <div className="product-title">{plant.name}</div>
+                    <div className="product-description">
+                      {plant.description}
+                    </div>
+                    <div className="product-price">{plant.cost}</div>
+                    <button
+                      className={`product-button ${
+                        addedToCart[plant.name] ? "added-to-cart" : ""
+                      }`}
+                      onClick={() => handleAddToCart(plant)}
+                      disabled={addedToCart[plant.name]}>
+                      {addedToCart[plant.name]
+                        ? "Added to Cart"
+                        : "Add to Cart"}
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
         </div>
       ) : (
         <CartItem onContinueShopping={handleContinueShopping} />
