@@ -92,6 +92,13 @@ body {
     margin-bottom: 10px;
 }
 
+.product-description {
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+    min-height: 40px;
+}
+
 .product-image {
     max-width: 100%;
     height: 200px; /* Adjust height for better consistency */
